@@ -1,5 +1,5 @@
 #include <iostream>
-#include <vector>
+#include <algorithm>
 using namespace std;
 
 /*
@@ -17,18 +17,13 @@ int main() {
       scanf(" %c", &board[i][k]);
     }
   }
-  cout << endl;
 
-  for(int i=0; i<numN; i++){
-    cout << endl;
-    for(int k=0; k<numM; k++){
-      printf("%c", board[i][k]);
-      
-    }
-  }
   int col = 0, row= 0;
   int count;
   int result=2500;
+
+  char backUp[numN][numM];
+  copy(&board[0][0],&board[0][0]+numN*numM,&backUp[0][0]);
   while(1){
     count=0;
     for(int c = col; c < col+8; c++){
@@ -38,10 +33,12 @@ int main() {
           if(board[c][r-1] != board[c][r]){continue;}
           else if(board[c][r-1] == 'B'){
             board[c][r] = 'W';
+            cout << "c: "<< c << " r: " << r << endl;
             count++;  
           }
           else {
-            board[c][r] = 'W';
+            board[c][r] = 'B';
+            cout << "c: "<< c << " r: " << r << endl;
             count++;
           }
         }
@@ -49,10 +46,12 @@ int main() {
          if(board[c-1][r] != board[c][r]){continue;}
          else if(board[c-1][r] == 'B'){
             board[c][r] = 'W';
+            cout << "c: "<< c << " r: " << r << endl;
             count++;  
           }
           else {
-            board[c][r] = 'W';
+            board[c][r] = 'B';
+            cout << "c: "<< c << " r: " << r << endl;
             count++;
           }
         }
@@ -61,12 +60,13 @@ int main() {
     if(count < result){
       result = count;
     }
-    
+    copy(&backUp[0][0],&backUp[0][0]+numN*numM,&board[0][0]);
     if(col+8 == numN && row+8 == numM){break;}
     else if(row+8 == numM){
       col++;
       row = 0;
     }
+    else{row++;}
   }
   cout << result;
 }
