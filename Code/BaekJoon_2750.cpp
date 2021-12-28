@@ -9,7 +9,7 @@ int main() {
     scanf(" %d", &numArr[i]);
   }
 
-  bool isDone;
+  bool isDone; // 반복문을 돌며 정렬할것이 없을때를 판별하기 위함
   int temp;
   while(1){
     isDone = true;
