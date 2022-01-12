@@ -18,33 +18,28 @@ int main(){
   int numN;
   scanf("%d", &numN);
   // 입력
-  vector<string> vecWord;
+  vector<vector<string>> vecSortSize;
+  for(int i=0; i<=50; i++){
+    vector<string> vecWord;
+    vecSortSize.push_back(vecWord);
+  }
+
   string word;
   for(int i=0; i<numN; i++){
     cin>> word;
-    vecWord.push_back(word);
+    vecSortSize[word.size()].push_back(word);
   }
+
   // 중복제거
-  sort(vecWord.begin(),vecWord.end()); // <- 이 과정에서 알파벳 정렬
-  vecWord.erase(unique(vecWord.begin(), vecWord.end()),vecWord.end());
-  // 개수로 정렬 중...
-  bool isDone;
-  string temp;
-  while(1){
-    isDone = true;
-    for(int i=0; i<vecWord.size()-1; i++){
-      if(vecWord[i].size() > vecWord[i+1].size()){
-        temp = vecWord[i];
-        vecWord[i] = vecWord[i+1];
-        vecWord[i+1] = temp;
-        isDone = false;
-      }
-    }
-    if(isDone == true) break;
+  for(int i=0; i<=50; i++){
+    sort(vecSortSize[i].begin(),vecSortSize[i].end()); // <- 이 과정에서 알파벳 정렬
+    vecSortSize[i].erase(unique(vecSortSize[i].begin(), vecSortSize[i].end()),vecSortSize[i].end());
   }
+
   // 출력
-  for(string st:vecWord){
-    cout << st << endl;
+  for(vector<string> vec:vecSortSize){
+    for(string st:vec){
+      cout << st << endl;
+    }
   }
-  // 역시 시간초과,,,,,
 }
