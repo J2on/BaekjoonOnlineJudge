@@ -4,34 +4,20 @@ using namespace std;
 
 /* 
  BaekJoon_2580 : 스도쿠
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0
 
 */
-int locZero[64][2]; // 현재까지 최대 빈칸이 17개
-int sudoku[8][8];
-/*
-bool testLocation(int numQ){
-  for(int i=0; i<numQ; i++){
-    if(arrQueen[i] == arrQueen[numQ] || numQ - i == abs(arrQueen[numQ] - arrQueen[i])){
-      return false;
-    }
-  }
-  return true;
-}
+int locZero[9][9];
+int sudoku[9][9];
 
-void chess(int numQ){
-  if(numQ == numN){
-    result++;
-    return;
-  }
-
-  for(int x=0; x<numN; x++){
-    arrQueen[numQ] = x;
-    if(testLocation(numQ)){
-      chess(numQ+1);  
-    }
-  }
-}
-*/
 int testSudoku(){
   for(int col=0; col<9; col++){
     for(int row=0; row<9; row++){
@@ -52,14 +38,38 @@ void printSudoku(){
   }
 }
 
-void fillSudoku(int cnt){
-  if(testSudoku()){
-    printSudoku();
-    return;
+int testNum(int col, int row, int num){
+  int colL;
+  int rowL;
+  if(col < 3) colL=0;
+  else if(col < 6) colL=3;
+  else colL =6;
+
+  if(row < 3) rowL=0;
+  else if(row < 6) rowL=3;
+  else rowL =6;
+  
+  for(int i=0; i<9; i++){
+    if(sudoku[col][i] == num || sudoku[i][row] == num) return 0;
   }
+  for(int c=colL; c<colL+3; c++){
+    for(int l=rowL; l<rowL+3; l++){
+      if(sudoku[c][l] == num) return 0;
+    }
+  }
+  return 1;
+}
+
+void fillSudoku(){
   for(int col=0; col<9; col++){
     for(int row=0; row<9; row++){
-      for()
+      if(locZero[col][row]) continue;
+      for(int i=1; i<=9; i++){
+        if(testNum(col,row,i)){
+          sudoku[col][row] = i;
+          break;
+        }
+      }
     }
   }
 }
@@ -68,9 +78,12 @@ int main() {
   for(int col=0; col<9; col++){
     for(int row=0; row<9; row++){
       scanf("%d", &sudoku[col][row]);
-      if(sudoku[col][row] == 0) locZero
+      if(sudoku[col][row] == 0) locZero[col][row] = 0;
+      else locZero[col][row] = 1;
     }
   }
-  cout << endl;
+  fillSudoku();
   
+  printSudoku();
+  return 0;
 }
