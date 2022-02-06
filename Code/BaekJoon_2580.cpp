@@ -15,8 +15,9 @@ using namespace std;
 0 0 0 0 0 0 0 0 0
 
 */
-int locZero[9][9];
+
 int sudoku[9][9];
+int numZero = 0;
 
 int testSudoku(){
   for(int col=0; col<9; col++){
@@ -60,14 +61,22 @@ int testNum(int col, int row, int num){
   return 1;
 }
 
-void fillSudoku(){
+void fillSudoku(int cnt){
+  if(testSudoku()){
+    printSudoku();
+    return;
+  }
   for(int col=0; col<9; col++){
     for(int row=0; row<9; row++){
-      if(locZero[col][row]) continue;
+      if(sudoku[col][row] != 0) continue;
       for(int i=1; i<=9; i++){
         if(testNum(col,row,i)){
           sudoku[col][row] = i;
-          break;
+          fillSudoku(cnt+1);
+          
+          cout << endl;
+          printSudoku();
+          cout << endl;
         }
       }
     }
@@ -78,12 +87,12 @@ int main() {
   for(int col=0; col<9; col++){
     for(int row=0; row<9; row++){
       scanf("%d", &sudoku[col][row]);
-      if(sudoku[col][row] == 0) locZero[col][row] = 0;
-      else locZero[col][row] = 1;
+      if(sudoku[col][row] == 0) {
+        numZero++;
+      }
     }
   }
-  fillSudoku();
   
-  printSudoku();
+  fillSudoku(0);
   return 0;
 }
