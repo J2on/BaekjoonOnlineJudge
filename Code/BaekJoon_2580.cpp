@@ -1,5 +1,4 @@
 #include<iostream>
-#include<vector>
 using namespace std;
 
 /* 
@@ -13,16 +12,15 @@ using namespace std;
 0 0 0 0 0 0 0 0 0
 0 0 0 0 0 0 0 0 0
 0 0 0 0 0 0 0 0 0
-
 */
 
-int sudoku[9][9];
+int sudoku[81];
 int numZero = 0;
 
 int testSudoku(){
   for(int col=0; col<9; col++){
     for(int row=0; row<9; row++){
-      if(sudoku[col][row] == 0){
+      if(sudoku[col*9 + row] == 0){
         return 0;
       }
     }
@@ -33,15 +31,18 @@ int testSudoku(){
 void printSudoku(){
   for(int col=0; col<9; col++){
     for(int row=0; row<9; row++){
-      printf("%d ", sudoku[col][row]);
+      printf("%d ", sudoku[col*9 + row]);
     }
     cout << endl;
   }
 }
 
-int testNum(int col, int row, int num){
-  int colL;
-  int rowL;
+int testNum(int cnt, int num){
+  int col, row;
+  int colL, rowL;
+
+  col = cnt/9;
+  row = cnt%9;
   if(col < 3) colL=0;
   else if(col < 6) colL=3;
   else colL =6;
@@ -51,45 +52,43 @@ int testNum(int col, int row, int num){
   else rowL =6;
   
   for(int i=0; i<9; i++){
-    if(sudoku[col][i] == num || sudoku[i][row] == num) return 0;
+    if(sudoku[col*9 + i] == num || sudoku[i*9 + row] == num) return 0;
   }
   for(int c=colL; c<colL+3; c++){
     for(int l=rowL; l<rowL+3; l++){
-      if(sudoku[c][l] == num) return 0;
+      if(sudoku[c*9 + l] == num) return 0;
     }
   }
   return 1;
 }
 
 void fillSudoku(int cnt){
-  if(testSudoku()){
+  if(cnt == 81){
     printSudoku();
     return;
   }
-  for(int col=0; col<9; col++){
-    for(int row=0; row<9; row++){
-      if(sudoku[col][row] != 0) continue;
-      for(int i=1; i<=9; i++){
-        if(testNum(col,row,i)){
-          sudoku[col][row] = i;
-          fillSudoku(cnt+1);
-          
-          cout << endl;
-          printSudoku();
-          cout << endl;
-        }
+  if(sudoku[cnt] != 0) fillSudoku(cnt+1);
+  else{
+    for(int i=1; i<=9; i++){
+      if(testNum(cnt,i)){
+        sudoku[cnt] = i;
+        /*
+        cout << endl;
+        printSudoku();
+        cout << endl;
+        */
+        fillSudoku(cnt+1);
       }
+      sudoku[cnt] = 0;
     }
   }
+  
 }
 
 int main() {
   for(int col=0; col<9; col++){
     for(int row=0; row<9; row++){
-      scanf("%d", &sudoku[col][row]);
-      if(sudoku[col][row] == 0) {
-        numZero++;
-      }
+      scanf("%d", &sudoku[col*9 + row]);
     }
   }
   
