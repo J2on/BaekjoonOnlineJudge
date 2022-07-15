@@ -7,8 +7,6 @@ using namespace std;
 중앙값 : N개의 수들을 증가하는 순서로 나열했을 경우 그 중앙에 위치하는 값
 최빈값 : N개의 수들 중 가장 많이 나타나는 값
 범위 : N개의 수들 중 최댓값과 최솟값의 차이
-
- 각각의 경우를 함수로 나누려다보니 코드가 길어졌다.
 */
 
 double findAverage(int arrN[], int numN){
@@ -16,7 +14,10 @@ double findAverage(int arrN[], int numN){
   for(int i=0; i<numN; i++){
     sum += arrN[i];
   }
-  return sum/(double)numN;
+  
+  double result = abs(sum/(double)numN);
+  if(sum<0 && result>=1){result *= -1;}
+  return result;
 }
 
 int findCentor(int arrN[], int numN){
