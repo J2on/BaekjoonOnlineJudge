@@ -1,0 +1,46 @@
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+/*
+첫번째 입력 : N(도감에 등록된 포켓몬의 개수), M(문제의 개수)
+ 1<= N,M <= 100,000
+두번째 입력 : 도감 채우기 n개의 포켓몬 이름(2 ~ 20)을 입력
+
+문제들을 문자열로 입력을 받고
+첫 글자의 ascii 코드 값이 숫자 범위(48~57)이라면 숫자로,
+ 대문자 범위(65~90)라면 문자로 인식하자
+*/
+
+int main() {
+	int numN, numM;
+	cin >> numN >> numM;
+
+	vector<string> pokeDex; // 포켓몬 도감
+	pokeDex.push_back("0");
+
+	// 도감에 포켓몬을 저장
+	for (int i = 0; i < numN; i++) {
+		string pokeName;
+		cin >> pokeName;
+		pokeDex.push_back(pokeName);
+	}
+
+	string input;
+	int head;
+	for (int i = 0; i < numM; i++) {
+		cin >> input;
+		head = int(input[0]);
+		if (48 <= head && head <= 57) {
+			cout << pokeDex[stoi(input)] << "\n";
+		}
+		else if (65 <= head && head <= 90) {
+			for (int i = 0; i < numN+1; i++) {
+				if (pokeDex[i] == input) {
+					cout << i << "\n";
+				}
+			}
+		}
+	}
+}
