@@ -1,0 +1,50 @@
+#include <iostream>
+#include <vector>
+#include <map>
+#include <string>
+using namespace std;
+
+/* BaekJoon_1620 : 나는야 포켓몬 마스터 이다솜
+첫번째 입력 : N(도감에 등록된 포켓몬의 개수), M(문제의 개수)
+ 1<= N,M <= 100,000
+두번째 입력 : 도감 채우기 n개의 포켓몬 이름(2 ~ 20)을 입력
+
+문제들을 문자열로 입력을 받고
+첫 글자의 ascii 코드 값이 숫자 범위(48~57)이라면 숫자로,
+ 대문자 범위(65~90)라면 문자로 인식하자
+*/
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int numN, numM;
+	cin >> numN >> numM;
+
+	vector<string> pokeDex; // 포켓몬 도감
+	pokeDex.push_back("0"); // 도감이 1부터 시작하므로
+
+	map<string, int> pokeDexSorted;
+
+	// 도감에 포켓몬을 저장
+	for (int i = 0; i < numN; i++) {
+		string pokeName;
+		cin >> pokeName;
+		pokeDex.push_back(pokeName);
+		pokeDexSorted.insert({ pokeName, i + 1});
+	}
+
+	string input;
+	int head; // 입력이 숫자인지 문자열인지를 알기위해서 첫 글자의 ascii code를 이용
+	for (int i = 0; i < numM; i++) {
+		cin >> input;
+		head = int(input[0]);
+		if (48 <= head && head <= 57) { // 입력이 숫자인 경우
+			cout << pokeDex[stoi(input)] << "\n";
+		}
+		else if (65 <= head && head <= 90) { // 입력이 문자열인 경우
+			cout << pokeDexSorted[input]<< "\n";
+		}
+	}
+}
