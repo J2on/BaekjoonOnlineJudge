@@ -1,12 +1,9 @@
-#include <iostream>
+#include<iostream>
+#include<vector>
+#include<algorithm>
 using namespace std;
 
-/*
-BaekJoon_1269 : 대칭 차집합
-	두 집합 A, B
-	(A-B) 개수 + (B-A) 개수 구하기
-	둘의 공집합을 A,B에 각각 빼주는것과 같고
-
+/* BaekJoon1269: 대칭차집합
 */
 
 int main() {
@@ -16,32 +13,16 @@ int main() {
 	int numA, numB;
 	cin >> numA >> numB;
 
-
-	int* arrA = new int[100000001]();
-	int* arrB = new int[100000001]();
-	int input;
-	for (int i = 0; i < numA; i++) {
-		cin >> input;
-		arrA[input]++;
-	}
-	for (int i = 0; i < numB; i++) {
-		cin >> input;
-		arrB[input]++;
-	}
-
-	int result = 0;
-	for (int i = 0; i < 100000001; i++) {
-		if (arrA[i] == 1 && arrB[i] == 1) {
-			continue;
-		}
-		else if (arrA[i] == 0 && arrB[i] == 0) {
-			continue;
-		}
-		else {
-			result++;
-		}
-	}
+	vector<int> vec(numA + numB, 0); // 한 벡터에 같이 저장
+	for (int i = 0; i < numA + numB; i++) { cin >> vec[i]; }
 	
+	// A집합과 B집합의 중복된 값을 제거
+	sort(vec.begin(), vec.end());
+	vec.erase(unique(vec.begin(), vec.end()), vec.end()); 
+	
+
+	// numA + numB - vec.size() 는 결국 중복된 원소의 개수를 나타낸다.
+	// 따라서 총 원소의 개수(numA + numB) 에서 중복된 원소의 개수*2 만큼 빼주면 정답 
+	int result = numA + numB - (numA + numB - vec.size()) * 2;
 	cout << result;
-	return 0;
 }
